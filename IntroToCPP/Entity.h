@@ -11,7 +11,7 @@ public:
 	float getDefensePower() { return m_attackPower; }
 
 	float takeDamage(float damageAmount);
-	float attack(Entity entity);
+	float attack(Entity* entity);
 
 private:
 	float m_health;

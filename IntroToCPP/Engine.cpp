@@ -35,23 +35,40 @@ void Engine::start()
 	m_entities[2] = unclePhil;
 
 	//Who is fighter one and fighter 2
-	m_currentFighter1 = m_entities[0];
-	m_currentFighter2 = m_entities[1];
+	m_currentFighter1 = &m_entities[0];
+	m_currentFighter2 = &m_entities[1];
 	m_currentFighterIndex = 2;
 }
 
 void Engine::update()
 {
-	//Checked death
+	//If fighter 1 dies to fighter 2, fighter 1 is replaced with a different player
+	if (m_currentFighter1->getHealth() <= 0 && m_currentFighterIndex < m_entityCount)
+	{
+		m_currentFighter1 = &m_entities[m_currentFighterIndex];
+		m_currentFighterIndex++;
+	}
+	if (m_currentFighter2->getHealth() <= 0 && m_currentFighterIndex < m_entityCount)
+	{
+		m_currentFighter2 = &m_entities[m_currentFighterIndex];
+		m_currentFighterIndex++;
+	}
+
+	if (m_currentFighter1->getHealth() <= 0 || m_currentFighter2->getHealth() <= 0 && m_currentFighterIndex >= m_entityCount)
+	{
+		m_applicationShouldClose = true;
+		return;
+	}
 
 	//Fighter 2 attacks fighter 1
-	m_currentFighter1.attack(m_currentFighter1);
+	m_currentFighter1->attack(m_currentFighter2);
 	//Fighter 1 attacks fighter 2
-	m_currentFighter2.attack(m_currentFighter1);
+	m_currentFighter2->attack(m_currentFighter1);
 }
 
 void Engine::draw()
 {
+
 }
 
 void Engine::end()
