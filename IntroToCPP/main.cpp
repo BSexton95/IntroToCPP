@@ -3,7 +3,8 @@
 
 int main()
 {
-	Entity wompus = Entity('W', 100000, 5, -20);
+	Engine engine = Engine();
+	engine.run();
 
 	return 0;
 }
