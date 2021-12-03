@@ -8,10 +8,12 @@ public:
 
 	float getHealth() { return m_health; }
 	float getAttackPower() { return m_attackPower; }
-	float getDefensePower() { return m_attackPower; }
+	float getDefensePower() { return m_defensePower; }
 
 	float takeDamage(float damageAmount);
 	float attack(Entity* entity);
+
+	void printStats();
 
 private:
 	float m_health;
