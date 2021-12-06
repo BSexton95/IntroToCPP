@@ -6,8 +6,9 @@ bool Engine::m_applicationShouldClose = false;
 Engine::Engine()
 {
 	m_applicationShouldClose = false;
-	m_entityCount = 0;
-	m_currentFighterIndex = 0;
+
+	m_scenes = 0;
+	m_currentSceneIndex = 0;
 }
 
 Engine::~Engine()
@@ -29,54 +30,15 @@ void Engine::run()
 	end();
 }
 
+
 void Engine::start()
 {
-	//Entities that will be fighting
-	Entity wompus = Entity('W', 30, 1, 1);
-	Entity redactedLittleSkeleton = Entity('r', 2, 1, 0);
-	Entity unclePhil = Entity('U', 1, 0, 0);
-
-	//Placed the fighters in the entity array
-	m_entities[0] = wompus;
-	m_entities[1] = redactedLittleSkeleton;
-	m_entities[2] = unclePhil;
-	m_entityCount = 3;
-
-	int test = 5;
-	Entity* entityPtrs[5];
-	Entity** entities = new Entity * [test];
-
-	//Who is fighter one and fighter 2
-	m_currentFighter1 = &m_entities[0];
-	m_currentFighter2 = &m_entities[1];
-	m_currentFighterIndex = 2;
-
+	m_scenes[m_currentSceneIndex]->start();
 }
 
 void Engine::update()
 {
-	//If fighter 1 dies to fighter 2, fighter 1 is replaced with a different player
-	if (m_currentFighter1->getHealth() <= 0 && m_currentFighterIndex < m_entityCount)
-	{
-		m_currentFighter1 = &m_entities[m_currentFighterIndex];
-		m_currentFighterIndex++;
-	}
-	if (m_currentFighter2->getHealth() <= 0 && m_currentFighterIndex < m_entityCount)
-	{
-		m_currentFighter2 = &m_entities[m_currentFighterIndex];
-		m_currentFighterIndex++;
-	}
-
-	if (m_currentFighter1->getHealth() <= 0 || m_currentFighter2->getHealth() <= 0 && m_currentFighterIndex >= m_entityCount)
-	{
-		m_applicationShouldClose = true;
-		return;
-	}
-
-	//Fighter 2 attacks fighter 1
-	m_currentFighter1->attack(m_currentFighter2);
-	//Fighter 1 attacks fighter 2
-	m_currentFighter2->attack(m_currentFighter1);
+	m_scenes[m_currentFighterIndex]->update();
 }
 
 void Engine::draw()
@@ -90,3 +52,47 @@ void Engine::draw()
 void Engine::end()
 {
 }
+
+/// <summary>
+/// Adds a scene to the engine's scene array
+/// </summary>
+/// <param name="scene">The cene that will be added to the scene array
+void Engine::addScene(Scene* scene)
+{
+	//Create a new temporary array
+	Scene** tempArray = new Scene*[m_sceneCount + 1];
+
+	//Copy all values from old array into the new array
+	for (int i = 0; i < m_sceneCount; i++)
+	{
+		tempArray[i] = m_scenes[i];
+		m_sceneCount++;
+	}
+
+	//Deallocate the memory for the old array
+	delete m_scenes;
+
+	//Set the last index to be the new scene
+	tempArray[m_sceneCount] = scene;
+
+	//Set the old array to be the new array
+	m_scenes = tempArray;
+
+}
+
+Scene* Engine::getCurrentScene()
+{
+	return nullptr;
+}
+
+/// <summary>
+/// Sets the current scene
+/// </summary>
+void Engine::setCurrentScene(int index)
+{
+	if (index == 1)
+		m_currentSceneIndex = 1;
+	if (index == 2)
+		m_applicationShouldClose = true;
+}
+

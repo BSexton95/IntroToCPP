@@ -18,5 +18,4 @@ private:
 	Actor** m_actors;
 	bool m_started;
 	int m_actorCount;
-
 };

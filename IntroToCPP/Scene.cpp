@@ -76,6 +76,8 @@ void Scene::addActor(Actor* actor)
 		m_actorCount++;
 	}
 
+	delete m_actors;
+
 	//Add the new actor to the end of the new array
 	tempArray[m_actorCount] = actor;
 
@@ -118,6 +120,8 @@ bool Scene::removeActor(Actor* actor)
 	//If the actor removal was successful...
 	if (actorRemoved)
 	{
+		delete m_actors;
+
 		//...set the old array to be the new array
 		m_actors = tempArray;
 	}

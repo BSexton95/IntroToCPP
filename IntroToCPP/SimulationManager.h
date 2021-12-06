@@ -13,7 +13,7 @@ public:
 	void update() override;
 
 private:
-	Entity* m_entites;
+	Entity* m_entities;
 	Entity* m_currentFighter1;
 	Entity* m_currentFighter2;
 

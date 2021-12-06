@@ -32,5 +32,6 @@ private:
 	int m_entityCount;
 
 	static Scene** m_scenes;
-	static int m_seneCount;
+	static int m_sceneCount;
+	static int m_currentSceneIndex;
 };

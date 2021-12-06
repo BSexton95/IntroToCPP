@@ -5,7 +5,7 @@ class Entity : public Actor
 {
 public:
 	Entity();
-	Entity(char icon, float health, float attackPower, float defensePower);
+	Entity(char name, float health, float attackPower, float defensePower);
 
 	float getHealth() { return m_health; }
 	float getAttackPower() { return m_attackPower; }
@@ -20,5 +20,5 @@ private:
 	float m_health;
 	float m_attackPower;
 	float m_defensePower;
-	char m_icon;
+	char m_name;;
 };
