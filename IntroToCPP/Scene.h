@@ -4,7 +4,8 @@
 class Scene
 {
 public:
-	bool getStarted();
+	~Scene();
+	bool getStarted() { m_started = true; }
 	void addActor(Actor* actor);
 	bool removeActor(Actor* actor);
 
