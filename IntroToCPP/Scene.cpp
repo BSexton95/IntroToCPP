@@ -17,14 +17,14 @@ void Scene::update()
 	for (int i = 0; i < m_actorCount; i++)
 	{
 		//If actors start is false...
-		if (m_started = false)
+		if (m_actors.getActor(i)->getStarted())
 		{
 			//...call actors start function
-			m_actors[i]->start();
+			m_actors.getActor(i)->start();
 		}
 
 		//Call actors update function
-		m_actors[i]->update();
+		m_actors.getActor(i)->update();
 	}
 }
 
@@ -34,7 +34,7 @@ void Scene::update()
 void Scene::draw()
 {
 	for (int i = 0; i < m_actorCount; i++)
-		m_actors[i]->draw();
+		m_actors.getActor(i)->draw();
 }
 
 /// <summary>
@@ -43,7 +43,7 @@ void Scene::draw()
 void Scene::end()
 {
 	for (int i = 0; i < m_actorCount; i++)
-		m_actors[i]->end();
+		m_actors.getActor(i)->end();
 }
 
 /// <summary>
@@ -52,7 +52,7 @@ void Scene::end()
 Scene::Scene()
 {
 	m_actorCount = 0;
-	m_actors[m_actorCount];
+	m_actors = ActorArray();
 }
 
 Scene::~Scene()
@@ -65,24 +65,7 @@ Scene::~Scene()
 /// <param name="actor">The actor to add to the scene</param>
 void Scene::addActor(Actor* actor)
 {
-	//Create a temporary array larger than the original 
-	Actor** tempArray = new Actor*[m_actorCount + 1];
-
-	//Copy all values from the original array into the temporary array and increments the actor count
-	for (int i = 0; i < m_actorCount; i++)
-	{
-		tempArray[i] = m_actors[i];
-
-		m_actorCount++;
-	}
-
-	delete m_actors;
-
-	//Add the new actor to the end of the new array
-	tempArray[m_actorCount] = actor;
-
-	//Set the old array to be the new array
-	m_actors = tempArray;
+	m_actors.AddActor(actor);
 }
 
 /// <summary>
@@ -92,42 +75,5 @@ void Scene::addActor(Actor* actor)
 /// <returns>False if the actor was not in the scene array</returns>
 bool Scene::removeActor(Actor* actor)
 {
-	//Create a variable to store if the removal was successful
-	bool actorRemoved = false;
-
-	//Create a new array that is smaller than the original
-	Actor** tempArray = new Actor*[m_actorCount - 1];
-
-	//Copy all values except the actor we don't want into the new array
-	int j = 0;
-	for (int i = 0; i < m_actorCount - 1; i++)
-	{
-		//If the actor that the loop is on is not the one to remove...
-		if (m_actors[i] != actor)
-		{
-			//...add the actor into the new array and increment the temp array counter
-			tempArray[j] = m_actors[i];
-			j++;
-		}
-		//Otherwise if this actor is the one to remove...
-		else
-		{
-			//...set actorRemoved to true
-			actorRemoved = true;
-		}
-	}
-
-	//If the actor removal was successful...
-	if (actorRemoved)
-	{
-		delete m_actors;
-
-		//...set the old array to be the new array
-		m_actors = tempArray;
-	}
-
-	//Decrement the actor count
-	m_actorCount--;
-
-	return actorRemoved;
+	return m_actors.removeActor(actor);
 }
