@@ -5,6 +5,7 @@ class Engine
 {
 public:
 	Engine();
+	~Engine();
 	void run();
 
 	static bool getApplicationShouldClose() { return m_applicationShouldClose; }

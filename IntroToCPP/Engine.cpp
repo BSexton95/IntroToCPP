@@ -10,6 +10,12 @@ Engine::Engine()
 	m_currentFighterIndex = 0;
 }
 
+Engine::~Engine()
+{
+	delete m_currentFighter1;
+	delete m_currentFighter2;
+}
+
 void Engine::run()
 {
 	start();
@@ -35,6 +41,10 @@ void Engine::start()
 	m_entities[1] = redactedLittleSkeleton;
 	m_entities[2] = unclePhil;
 	m_entityCount = 3;
+
+	int test = 5;
+	Entity* entityPtrs[5];
+	Entity** entities = new Entity * [test];
 
 	//Who is fighter one and fighter 2
 	m_currentFighter1 = &m_entities[0];
